@@ -1,0 +1,43 @@
+import Challenge
+/-! Audit 5: `VacuumJet` is NOT vacuous. Two explicit nonzero vacuum jets:
+(a) the plane wave F^{03} = f(y−t), F^{01} = f(y−t) (slots 2 and 0 vary along μ=1 and μ=3);
+(b) the sympy nullspace pick D 0 = e_3 (∂_0 F^{12} = 1), D 1 = e_1 (∂_1 F^{02} = 1).
+Also: the trivial jet is a vacuum jet, and `Conserved` is therefore a 16-parameter family of
+conditions per point, not an empty one. -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+/-- Plane-wave first jet: ∂_1 F^{03} = 1, ∂_3 F^{03} = −1, ∂_1 F^{01} = 1, ∂_3 F^{01} = −1. -/
+def planeWaveJet : Jet :=
+  ![![0,0,0,0,0,0], ![1,0,1,0,0,0], ![0,0,0,0,0,0], ![-1,0,-1,0,0,0]]
+
+theorem audit_planeWave_vacuum : VacuumJet planeWaveJet := by
+  refine ⟨?_, ?_⟩
+  · simp [bianchiJet, registerJet, embed, planeWaveJet]
+  · funext ν
+    fin_cases ν <;>
+      simp [sourcedCurrent, registerJet, embed, field, planeWaveJet, Fin.sum_univ_four]
+
+theorem audit_planeWave_nonzero : planeWaveJet ≠ 0 := by
+  intro h
+  have := congrFun (congrFun h 1) 0
+  simp [planeWaveJet] at this
+
+def nullspaceJet : Jet :=
+  ![![0,0,0,1,0,0], ![0,1,0,0,0,0], ![0,0,0,0,0,0], ![0,0,0,0,0,0]]
+
+theorem audit_nullspace_vacuum : VacuumJet nullspaceJet := by
+  refine ⟨?_, ?_⟩
+  · simp [bianchiJet, registerJet, embed, nullspaceJet]
+  · funext ν
+    fin_cases ν <;>
+      simp [sourcedCurrent, registerJet, embed, field, nullspaceJet, Fin.sum_univ_four]
+
+/-- And a jet that is NOT a vacuum jet (so VacuumJet is not trivially true either):
+∂_1 F^{03} = 1 alone violates Bianchi (013). -/
+theorem audit_nonvacuum_exists : ¬ VacuumJet ![![0,0,0,0,0,0], ![0,0,1,0,0,0], 0, 0] := by
+  intro h
+  have := h.1.2.1
+  simp [registerJet, embed] at this
+
+end PDTSourceSelection

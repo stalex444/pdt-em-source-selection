@@ -1,0 +1,76 @@
+F.F  = 2*f01**2 + 2*f02**2 - 2*f03**2 + 2*f12**2 - 2*f13**2 - 2*f23**2
+F.*F = -4*f01*f23 + 4*f02*f13 - 4*f03*f12
+F *F^T - 1/4 eta (F.*F) == 0 ? True
+*F*F^T  vs F F^T - 1/2 eta F.F == 0 ? True
+tr_eta T_maxwell = 0
+
+=========== (a) quadratic S: covariance and trace ===========
+number of free quadratic coefficients: 210
+dim covariant quadratic S: 3
+  cov basis[0] in terms of (T_maxwell, eta F.F, eta F.*F): {a0: 0, a1: 0, a2: 1/4}
+  cov basis[1] in terms of (T_maxwell, eta F.F, eta F.*F): {a0: 1, a1: -1/4, a2: 0}
+  cov basis[2] in terms of (T_maxwell, eta F.F, eta F.*F): {a0: 1, a1: 1/4, a2: 0}
+  T_maxwell in covariant space: True
+  eta F.F in covariant space: True
+  eta F.*F in covariant space: True
+  F F^T in covariant space: True
+  *F *F^T in covariant space: True
+dim traceless quadratic S: 189 (expected 210 - 21 = 189)
+dim covariant AND traceless: 1
+  cov+traceless basis[0] = {a0: 2, a1: 0, a2: 0}
+
+Bianchi (d_mu *F^{mu nu}) and d_[a F_bc] span same constraints: True
+free jet parameters: Maxwell+Bianchi = 16 , Bianchi only = 20
+
+=========== (b) quadratic S conserved on Maxwell+Bianchi jets ===========
+dim conserved quadratic S: 1
+  conserved basis[0] in (T_maxwell, eta F.F, eta F.*F): {a0: 2, a1: 0, a2: 0} | tr_eta = 0
+     matrix: Matrix([[f01**2 + f02**2 - f03**2 - f12**2 + f13**2 + f23**2, 2*f02*f12 - 2*f03*f13, -2*f01*f12 - 2*f03*f23, -2*f01*f13 - 2*f02*f23], [2*f02*f12 - 2*f03*f13, f01**2 - f02**2 + f03**2 + f12**2 - f13**2 + f23**2, 2*f01*f02 - 2*f13*f23, 2*f01*f03 - 2*f12*f23], [-2*f01*f12 - 2*f03*f23, 2*f01*f02 - 2*f13*f23, -f01**2 + f02**2 + f03**2 + f12**2 + f13**2 - f23**2, 2*f02*f03 + 2*f12*f13], [-2*f01*f13 - 2*f02*f23, 2*f01*f03 - 2*f12*f23, 2*f02*f03 + 2*f12*f13, f01**2 + f02**2 + f03**2 + f12**2 + f13**2 + f23**2]])
+  T_maxwell conserved? True
+  eta F.F conserved? False
+  eta F.*F conserved? False
+dim conserved AND covariant: 1 ; conserved AND traceless: 1
+
+=========== (c) polynomial S of degree <= 2 conserved on Maxwell+Bianchi jets ===========
+free coefficients: 280
+dim conserved deg<=2: 17
+  degree [0]: dim conserved = 10 of 10
+  degree [1]: dim conserved = 6 of 60
+    linear conserved: Matrix([[f01, 0, -f12, -f13], [0, f01, f02, f03], [-f12, f02, -f01, 0], [-f13, f03, 0, f01]])
+    linear conserved: Matrix([[f02, f12, 0, -f23], [f12, -f02, f01, 0], [0, f01, f02, f03], [-f23, 0, f03, f02]])
+    linear conserved: Matrix([[-f03, -f13, -f23, 0], [-f13, f03, 0, f01], [-f23, 0, f03, f02], [0, f01, f02, f03]])
+    linear conserved: Matrix([[-f12, f02, -f01, 0], [f02, f12, 0, -f23], [-f01, 0, f12, f13], [0, -f23, f13, f12]])
+    linear conserved: Matrix([[f13, -f03, 0, -f01], [-f03, -f13, -f23, 0], [0, -f23, f13, f12], [-f01, 0, f12, f13]])
+    linear conserved: Matrix([[f23, 0, -f03, -f02], [0, f23, -f13, -f12], [-f03, -f13, -f23, 0], [-f02, -f12, 0, f23]])
+  degree [2]: dim conserved = 1 of 210
+  d_mu (F^{mu nu} a_nu) on MB jets zero: True
+  d_mu (*F^{mu nu} b_nu) on MB jets zero: True
+  symmetric members of {X.F + Z.*F} (divergence-free by Maxwell/Bianchi): 6
+     Matrix([[f23, 0, -f03, -f02], [0, f23, -f13, -f12], [-f03, -f13, -f23, 0], [-f02, -f12, 0, f23]])
+     Matrix([[-f13, f03, 0, f01], [f03, f13, f23, 0], [0, f23, -f13, -f12], [f01, 0, -f12, -f13]])
+     Matrix([[-f03, -f13, -f23, 0], [-f13, f03, 0, f01], [-f23, 0, f03, f02], [0, f01, f02, f03]])
+     Matrix([[f12, -f02, f01, 0], [-f02, -f12, 0, f23], [f01, 0, -f12, -f13], [0, f23, -f13, -f12]])
+     Matrix([[f02, f12, 0, -f23], [f12, -f02, f01, 0], [0, f01, f02, f03], [-f23, 0, f03, f02]])
+     Matrix([[-f01, 0, f12, f13], [0, -f01, -f02, -f03], [f12, -f02, f01, 0], [f13, -f03, 0, -f01]])
+  linear conserved (direct): 6
+
+=========== (d) div S = F^{nu lam} j_lam, j^lam = k d_mu F^{mu lam}, Bianchi-only jets ===========
+  solvable: True
+  number of free parameters in solution (homogeneous dim): 10
+  particular solution in (T_maxwell, eta F.F, eta F.*F): {a0: k, a1: 0, a2: 0}
+  particular solution matrix: Matrix([[f01**2*k/2 + f02**2*k/2 - f03**2*k/2 - f12**2*k/2 + f13**2*k/2 + f23**2*k/2, f02*f12*k - f03*f13*k, -f01*f12*k - f03*f23*k, -f01*f13*k - f02*f23*k], [f02*f12*k - f03*f13*k, f01**2*k/2 - f02**2*k/2 + f03**2*k/2 + f12**2*k/2 - f13**2*k/2 + f23**2*k/2, f01*f02*k - f13*f23*k, f01*f03*k - f12*f23*k], [-f01*f12*k - f03*f23*k, f01*f02*k - f13*f23*k, -f01**2*k/2 + f02**2*k/2 + f03**2*k/2 + f12**2*k/2 + f13**2*k/2 - f23**2*k/2, f02*f03*k + f12*f13*k], [-f01*f13*k - f02*f23*k, f01*f03*k - f12*f23*k, f02*f03*k + f12*f13*k, f01**2*k/2 + f02**2*k/2 + f03**2*k/2 + f12**2*k/2 + f13**2*k/2 + f23**2*k/2]])
+  homogeneous (div S = 0 on Bianchi-only jets) dim: 10
+     Matrix([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+     Matrix([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+     Matrix([[0, 0, 1, 0], [0, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]])
+     Matrix([[0, 0, 0, 1], [0, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0]])
+     Matrix([[0, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+     Matrix([[0, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 0]])
+     Matrix([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0], [0, 1, 0, 0]])
+     Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 0]])
+     Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
+     Matrix([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1]])
+  quadratic part of general solution in (T_maxwell, eta F.F, eta F.*F): {a0: k, a1: 0, a2: 0}
+  sign check: div T_maxwell on Bianchi-only jets vs F^{nu lam} (d_mu F^{mu}_lam):
+    div T == 1 * F^{nu lam} d_mu F^mu_lam : True
+    div T == -1 * F^{nu lam} d_mu F^mu_lam : False

@@ -1,0 +1,26 @@
+import Challenge
+set_option maxHeartbeats 8000000
+/-! Audit 3 (the decisive check): `fieldAction k` is the action induced on the six components by
+`tensorAction k` on the embedded field, i.e.
+  field (embed (fieldAction k x)) = L_k · field (embed x) + field (embed x) · L_kᵀ
+for every generator k and every x. -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+theorem audit_fieldAction_induced (k : Fin 6) (x : Local) :
+    field (embed (fieldAction k x)) = tensorAction k (field (embed x)) := by
+  fin_cases k <;> ext i j <;> fin_cases i <;> fin_cases j <;>
+    simp [field, embed, fieldAction, tensorAction, lorentzGenerator, lorentzTable,
+      Matrix.mul_apply, Matrix.vecMul, dotProduct, Matrix.transpose_apply, Fin.sum_univ_four] <;> ring
+
+/-- Sanity: the opposite sign would be wrong (so the test above is not vacuous). -/
+theorem audit_fieldAction_sign_matters :
+    ¬ (∀ (k : Fin 6) (x : Local),
+        field (embed (fieldAction k x)) = - tensorAction k (field (embed x))) := by
+  intro h
+  have := congrFun (congrFun (h 0 ![0,0,0,1,0,0]) 0) 2
+  simp [field, embed, fieldAction, tensorAction, lorentzGenerator, lorentzTable,
+      Matrix.mul_apply, Matrix.vecMul, dotProduct, Matrix.transpose_apply, Fin.sum_univ_four] at this
+  norm_num at this
+
+end PDTSourceSelection

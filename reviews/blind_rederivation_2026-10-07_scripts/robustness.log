@@ -1,0 +1,26 @@
+linear conserved dim: 6
+  F: F w + (F w)^T + 0 eta (w.F) conserved on MB jets: False
+  F: F w + (F w)^T + 1/2 eta (w.F) conserved on MB jets: True
+  F: F w + (F w)^T + -1/2 eta (w.F) conserved on MB jets: False
+  F: F w + (F w)^T + 1 eta (w.F) conserved on MB jets: False
+  F: F w + (F w)^T + -1 eta (w.F) conserved on MB jets: False
+  *F: F w + (F w)^T + 0 eta (w.F) conserved on MB jets: False
+  *F: F w + (F w)^T + 1/2 eta (w.F) conserved on MB jets: True
+  *F: F w + (F w)^T + -1/2 eta (w.F) conserved on MB jets: False
+  *F: F w + (F w)^T + 1 eta (w.F) conserved on MB jets: False
+  *F: F w + (F w)^T + -1 eta (w.F) conserved on MB jets: False
+  F, c=1/2: lies in the 6-dim conserved linear space: False
+  F, c=-1/2: lies in the 6-dim conserved linear space: False
+  *F, c=1/2: lies in the 6-dim conserved linear space: False
+  *F, c=-1/2: lies in the 6-dim conserved linear space: False
+  rank of F-family: 6 ; rank of F-family + *F-family: 6
+  eta-traces of linear conserved basis: [0, 0, 0, 0, 0, 0]
+  dim linear S that are Lorentz-covariant: 0 ; covariant AND conserved: 0
+covariant-F convention: dim covariant quadratic S = 3
+covariant-F convention: dim covariant+traceless = 1
+  k=1: homogeneous dim=10, particular = {a0: 1, a1: 0, a2: 0} (T_maxwell, eta F.F, eta F.*F)
+  k=3: homogeneous dim=10, particular = {a0: 3, a1: 0, a2: 0} (T_maxwell, eta F.F, eta F.*F)
+  k=-2/7: homogeneous dim=10, particular = {a0: -2/7, a1: 0, a2: 0} (T_maxwell, eta F.F, eta F.*F)
+(d) with NO Bianchi constraint (all 24 jets free): solvable = False
+(b) Maxwell-only jets (no Bianchi): dim conserved quadratic = 0
+(b) Bianchi-only jets (no Maxwell): dim conserved quadratic = 0

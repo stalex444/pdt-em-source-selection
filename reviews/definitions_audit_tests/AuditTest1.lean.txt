@@ -1,0 +1,19 @@
+import Challenge
+/-! Audit 1: `field (embed x)` is the antisymmetric matrix with F01=x0 F02=x1 F03=x2 F12=x3 F13=x4 F23=x5. -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+theorem audit_field_embed (a b c d e f : ℝ) :
+    field (embed ![a,b,c,d,e,f]) =
+      !![0, a, b, c;
+         -a, 0, d, e;
+         -b, -d, 0, f;
+         -c, -e, -f, 0] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [field, embed]
+
+theorem audit_field_antisymm (v : Register) : (field v).transpose = -field v := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [field]
+
+end PDTSourceSelection

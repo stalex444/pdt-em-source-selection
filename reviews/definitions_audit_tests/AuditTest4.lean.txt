@@ -1,0 +1,43 @@
+import Challenge
+set_option maxHeartbeats 2000000
+/-! Audit 4: `stress d F` is symmetric and η-trace-free for EVERY 4×4 F (not only embedded ones),
+and `source maxwellCoefficients` IS `registerStress 1 (embed x)` (so the certificate's Maxwell
+vector is the displayed stress at scale 1). -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+theorem audit_stress_symm (d : ℝ) (F : Tensor) : (stress d F).transpose = stress d F := by
+  ext i j
+  have hm : metric j i = metric i j := by
+    unfold metric
+    by_cases h : i = j
+    · subst h; rfl
+    · rw [Matrix.diagonal_apply_ne _ h, Matrix.diagonal_apply_ne _ (Ne.symm h)]
+  show d*(mink (F j) (F i) - metric j i * invariant F/4) = d*(mink (F i) (F j) - metric i j * invariant F/4)
+  rw [hm]; unfold mink; ring
+
+theorem audit_stress_traceFree (d : ℝ) (F : Tensor) :
+    stress d F 0 0 + stress d F 1 1 + stress d F 2 2 - stress d F 3 3 = 0 := by
+  simp [stress, invariant, metric, eta, Matrix.diagonal]; ring
+
+/-- Copy of `maxwellCoefficients` from SourceCoefficientData.lean (not in the Challenge). -/
+noncomputable def maxwellCoefficients' : Coeff :=
+  ![![(1/2 : ℝ),0,0,0,0,0,(1/2 : ℝ),0,0,0,0,(-1/2 : ℝ),0,0,0,(-1/2 : ℝ),0,0,(1/2 : ℝ),0,(1/2 : ℝ)],
+    ![0,0,0,0,0,0,0,0,1,0,0,0,0,(-1),0,0,0,0,0,0,0],
+    ![0,0,0,(-1),0,0,0,0,0,0,0,0,0,0,(-1),0,0,0,0,0,0],
+    ![0,0,0,0,(-1),0,0,0,0,0,(-1),0,0,0,0,0,0,0,0,0,0],
+    ![(1/2 : ℝ),0,0,0,0,0,(-1/2 : ℝ),0,0,0,0,(1/2 : ℝ),0,0,0,(1/2 : ℝ),0,0,(-1/2 : ℝ),0,(1/2 : ℝ)],
+    ![0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,(-1),0],
+    ![0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,(-1),0,0,0],
+    ![(-1/2 : ℝ),0,0,0,0,0,(1/2 : ℝ),0,0,0,0,(1/2 : ℝ),0,0,0,(1/2 : ℝ),0,0,(1/2 : ℝ),0,(-1/2 : ℝ)],
+    ![0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0],
+    ![(1/2 : ℝ),0,0,0,0,0,(1/2 : ℝ),0,0,0,0,(1/2 : ℝ),0,0,0,(1/2 : ℝ),0,0,(1/2 : ℝ),0,(1/2 : ℝ)]]
+
+theorem audit_maxwell_is_stress_one (x : Local) :
+    source maxwellCoefficients' x = registerStress 1 (embed x) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [source, poly, maxwellCoefficients', tensorIndex, monomialPair, registerStress, stress,
+      field, embed, mink, invariant, metric, eta, Matrix.diagonal, Fin.sum_univ_succ] <;> ring
+
+end PDTSourceSelection

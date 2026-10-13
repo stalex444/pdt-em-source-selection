@@ -1,0 +1,5 @@
+each F- and *F-family element lies in the 6-dim conserved linear space: True
+S(a^b) == Sw(F, a^b): True
+S(a^b) conserved on MB jets: True
+Sw(*F, w) == Sw(F, 1*w): False
+Sw(*F, w) == Sw(F, -1*w): True

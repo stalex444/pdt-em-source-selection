@@ -1,4 +1,3 @@
 .lake/
-AuditTest*.lean
-audit_defs.py
-reviews/
+/AuditTest*.lean
+/audit_defs.py

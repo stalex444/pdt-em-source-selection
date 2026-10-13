@@ -1,0 +1,29 @@
+import Challenge
+set_option maxHeartbeats 20000000
+/-! Audit 6: the 209 constraints vanish on the Maxwell coefficient vector, so `finiteCertificate`
+is non-vacuous (its left side is satisfiable by a nonzero c). -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+noncomputable def maxwellCoefficients' : Coeff :=
+  ![![(1/2 : ℝ),0,0,0,0,0,(1/2 : ℝ),0,0,0,0,(-1/2 : ℝ),0,0,0,(-1/2 : ℝ),0,0,(1/2 : ℝ),0,(1/2 : ℝ)],
+    ![0,0,0,0,0,0,0,0,1,0,0,0,0,(-1),0,0,0,0,0,0,0],
+    ![0,0,0,(-1),0,0,0,0,0,0,0,0,0,0,(-1),0,0,0,0,0,0],
+    ![0,0,0,0,(-1),0,0,0,0,0,(-1),0,0,0,0,0,0,0,0,0,0],
+    ![(1/2 : ℝ),0,0,0,0,0,(-1/2 : ℝ),0,0,0,0,(1/2 : ℝ),0,0,0,(1/2 : ℝ),0,0,(-1/2 : ℝ),0,(1/2 : ℝ)],
+    ![0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,(-1),0],
+    ![0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,(-1),0,0,0],
+    ![(-1/2 : ℝ),0,0,0,0,0,(1/2 : ℝ),0,0,0,0,(1/2 : ℝ),0,0,0,(1/2 : ℝ),0,0,(1/2 : ℝ),0,(-1/2 : ℝ)],
+    ![0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0],
+    ![(1/2 : ℝ),0,0,0,0,0,(1/2 : ℝ),0,0,0,0,(1/2 : ℝ),0,0,0,(1/2 : ℝ),0,0,(1/2 : ℝ),0,(1/2 : ℝ)]]
+
+theorem audit_constraints_maxwell : constraints maxwellCoefficients' = 0 := by
+  funext i
+  fin_cases i <;> simp [constraints, maxwellCoefficients'] <;> norm_num
+
+theorem audit_maxwell_nonzero : maxwellCoefficients' ≠ 0 := by
+  intro h
+  have := congrFun (congrFun h 0) 0
+  simp [maxwellCoefficients'] at this
+
+end PDTSourceSelection

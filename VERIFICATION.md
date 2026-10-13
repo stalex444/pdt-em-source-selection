@@ -53,6 +53,14 @@ declarations in the same order.
 
 ## Reviews run on the package (7 October 2026)
 
+**Revision of 13 October 2026.** The five review reports below, with the blind re-derivation scripts, the
+literature cross-check scripts and the seven definitions-audit tests (stored as `.lean.txt`, see
+`reviews/definitions_audit_tests/README.md`), are committed under `reviews/` at this revision. The 7 October
+commits cited them while `.gitignore` excluded the folder; Palomar's automated review of commit `7517011`
+(13 October 2026, no blocking problems) noted that the cited records could not be checked in the pinned
+repository. Three pointers to the private canon in `reviews/CALIBRATION_prose_2026-10-07.md` were replaced by
+neutral wording; no other review text, and no Lean source, changed.
+
 All five are AI reviews, recorded in `reviews/`; none is human peer review or a Palomar determination.
 
 - Statement fidelity (referee): each of the twelve Lean statements restated and compared with the abstract, the claim

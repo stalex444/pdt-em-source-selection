@@ -1,0 +1,34 @@
+import Challenge
+/-! Audit 2: the six integer generators lie in so(3,1) for η = diag(1,1,1,-1), in BOTH the
+vector-representation form Lᵀη + ηL = 0 and the contravariant-tensor form Lη + ηLᵀ = 0
+(the latter is exactly `tensorAction k metric = 0`); and they are linearly independent. -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+def etaZ : Matrix (Fin 4) (Fin 4) ℤ := Matrix.diagonal ![1,1,1,-1]
+
+theorem audit_generators_vector_form :
+    ∀ k : Fin 6, (lorentzTable k).transpose * etaZ + etaZ * lorentzTable k = 0 := by
+  decide
+
+theorem audit_generators_tensor_form :
+    ∀ k : Fin 6, lorentzTable k * etaZ + etaZ * (lorentzTable k).transpose = 0 := by
+  decide
+
+theorem audit_tensorAction_metric (k : Fin 6) : tensorAction k metric = 0 := by
+  fin_cases k <;> ext i j <;> fin_cases i <;> fin_cases j <;>
+    simp [tensorAction, lorentzGenerator, lorentzTable, metric, eta, Matrix.mul_apply,
+      Fin.sum_univ_four, Matrix.diagonal]
+
+/-- Linear independence: a vanishing integer combination has all coefficients zero. -/
+theorem audit_generators_independent (a : Fin 6 → ℤ)
+    (h : ∑ k, a k • lorentzTable k = 0) : a = 0 := by
+  have e : ∀ i j, (∑ k, a k • lorentzTable k) i j = 0 := fun i j => by rw [h]; rfl
+  have h01 := e 0 1; have h02 := e 0 2; have h03 := e 0 3
+  have h12 := e 1 2; have h13 := e 1 3; have h23 := e 2 3
+  simp only [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul, Fin.sum_univ_six]
+    at h01 h02 h03 h12 h13 h23
+  simp [lorentzTable] at h01 h02 h03 h12 h13 h23
+  funext k; fin_cases k <;> simp <;> linarith
+
+end PDTSourceSelection

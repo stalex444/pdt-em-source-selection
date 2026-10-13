@@ -1,0 +1,32 @@
+import Challenge
+/-! Audit 7: J is the Hodge star on the six upper-index components (ε^{0123} = +1):
+J x = (−x5, x4, x3, −x2, −x1, x0), J² = −1, Jᵀ J = 1; the cross family is symmetric. -/
+namespace PDTSourceSelection
+open scoped Matrix
+
+theorem audit_J_explicit (x : Local) :
+    J *ᵥ x = ![-x 5, x 4, x 3, -x 2, -x 1, x 0] := by
+  funext i
+  fin_cases i <;> simp [J, Matrix.mulVec, dotProduct, Fin.sum_univ_succ]
+
+theorem audit_J_sq : J * J = -1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [J, Matrix.mul_apply, Fin.sum_univ_succ]
+
+theorem audit_J_orth : J.transpose * J = 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [J, Matrix.mul_apply, Fin.sum_univ_succ]
+
+theorem audit_cross_symm (b x : Local) :
+    (linear (crossCoefficients b) x).transpose = linear (crossCoefficients b) x := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [linear, tensorIndex]
+
+theorem audit_cross_linear_in_b (b b' x : Local) :
+    linear (crossCoefficients (b + b')) x
+      = linear (crossCoefficients b) x + linear (crossCoefficients b') x := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [linear, crossCoefficients, tensorIndex, Fin.sum_univ_succ] <;> ring
+
+end PDTSourceSelection

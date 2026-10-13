@@ -1225,7 +1225,7 @@
   "ai_review": {
     "review_kind": "Five AI-agent reviews on 7 October 2026 (statement fidelity, definitions audit with kernel-checked tests, blind re-derivation, calibration, second literature pass); no human peer review or novelty/acceptance guarantee",
     "verdict": "No fatal or serious mathematical defect; prose and provenance corrections applied; smoothClassification strengthened to an equivalence",
-    "reports": "reviews/ in the canon staging copy (palomar/em_source_selection/reviews), not shipped in this repository"
+    "reports": "reviews/ in this repository, committed at the 13 October 2026 revision (the 7 October commits cited the reports while .gitignore excluded them; Palomar's automated review of commit 7517011 noted it)"
   },
   "inherited_gravityscreening_warnings": {
     "GravityScreening/SignedLieGeneration.lean": 1,
